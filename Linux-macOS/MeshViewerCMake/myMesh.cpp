@@ -63,6 +63,7 @@ bool myMesh::readFile(std::string filename)
 
 	while (getline(fin, s))
 	{
+		t = "";
 		stringstream myline(s);
 		myline >> t;
 		if (t == "g") {}
@@ -70,16 +71,55 @@ bool myMesh::readFile(std::string filename)
 		{
 			float x, y, z;
 			myline >> x >> y >> z;
-			cout << "v " << x << " " << y << " " << z << endl;
+			myVertex *v = new myVertex();
+			v->point = new myPoint3D(x, y, z);
+			vertices.push_back(v);
 		}
 		else if (t == "mtllib") {}
 		else if (t == "usemtl") {}
 		else if (t == "s") {}
 		else if (t == "f")
 		{
-			cout << "f"; 
-			while (myline >> u) cout << " " << atoi((u.substr(0, u.find("/"))).c_str());
-			cout << endl;
+			faceids.clear();
+			while (myline >> u)
+				faceids.push_back(atoi((u.substr(0, u.find("/"))).c_str()) - 1);
+			if (faceids.size() < 3)
+				continue;
+
+			hedges = new myHalfedge *[faceids.size()];
+			for (unsigned int i = 0; i < faceids.size(); i++)
+				hedges[i] = new myHalfedge();
+
+			myFace *f = new myFace();
+			f->adjacent_halfedge = hedges[0];
+
+			for (unsigned int i = 0; i < faceids.size(); i++) {
+				int iplusone  = (i + 1) % faceids.size();
+				int iminusone = (i - 1 + faceids.size()) % faceids.size();
+
+				hedges[i]->next = hedges[iplusone];
+				hedges[i]->prev = hedges[iminusone];
+				hedges[i]->source = vertices[faceids[i]];
+				hedges[i]->adjacent_face = f;
+
+				if (vertices[faceids[i]]->originof == NULL)
+					vertices[faceids[i]]->originof = hedges[i];
+
+				pair<int, int> key      = make_pair(faceids[i], faceids[iplusone]);
+				pair<int, int> twin_key = make_pair(faceids[iplusone], faceids[i]);
+				it = twin_map.find(twin_key);
+				if (it != twin_map.end()) {
+					hedges[i]->twin = it->second;
+					it->second->twin = hedges[i];
+				} else {
+					twin_map[key] = hedges[i];
+				}
+
+				halfedges.push_back(hedges[i]);
+			}
+
+			delete[] hedges;
+			faces.push_back(f);
 		}
 	}
 
@@ -92,7 +132,13 @@ bool myMesh::readFile(std::string filename)
 
 void myMesh::computeNormals()
 {
-	/**** TODO ****/
+	for (unsigned int i = 0; i < faces.size(); i++)
+		if (faces[i] != NULL)
+			faces[i]->computeNormal();
+
+	for (unsigned int i = 0; i < vertices.size(); i++)
+		if (vertices[i] != NULL)
+			vertices[i]->computeNormal();
 }
 
 void myMesh::normalize()

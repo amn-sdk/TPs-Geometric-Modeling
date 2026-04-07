@@ -17,6 +17,10 @@ myFace::~myFace(void)
 
 void myFace::computeNormal()
 {
+	if (adjacent_halfedge == NULL || adjacent_halfedge->next == NULL ||
+		adjacent_halfedge->next->next == NULL)
+		return;
+
 	myHalfedge *h = adjacent_halfedge;
 	myVector3D v1, v2;
 	v1.dX = h->source->point->X - h->next->source->point->X;

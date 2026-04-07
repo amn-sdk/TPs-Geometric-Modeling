@@ -17,17 +17,25 @@ myVertex::~myVertex(void)
 
 void myVertex::computeNormal()
 {
+	normal->dX = 0.0;
+	normal->dY = 0.0;
+	normal->dZ = 0.0;
+
+	if (originof == NULL)
+		return;
+
 	myHalfedge *h = originof;
-	myVector3D v1, v2;
-	v1.dX = h->source->point->X - h->next->source->point->X;
-	v1.dY = h->source->point->Y - h->next->source->point->Y;
-	v1.dZ = h->source->point->Z - h->next->source->point->Z;
+	do {
+		if (h->adjacent_face != NULL && h->adjacent_face->normal != NULL) {
+			normal->dX += h->adjacent_face->normal->dX;
+			normal->dY += h->adjacent_face->normal->dY;
+			normal->dZ += h->adjacent_face->normal->dZ;
+		}
 
-	h = h->next;
-	v2.dX = h->source->point->X - h->next->source->point->X;
-	v2.dY = h->source->point->Y - h->next->source->point->Y;
-	v2.dZ = h->source->point->Z - h->next->source->point->Z;
+		if (h->twin == NULL)
+			break;
+		h = h->twin->next;
+	} while (h != originof);
 
-	normal->crossproduct(v1, v2);
 	normal->normalize();
 }
