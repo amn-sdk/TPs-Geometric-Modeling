@@ -88,7 +88,7 @@ void menu(int item) {
     break;
   }
   case MENU_DRAWNORMALS: {
-    drawnormals = false;
+    drawnormals = true;
     break;
   }
   case MENU_DRAWSILHOUETTE: {
@@ -185,7 +185,7 @@ void display() {
   drawmesh = true;
   drawwireframe = false;
   drawmeshvertices = false;
-  drawnormals = false;
+  drawnormals = true;
   drawsilhouette = false;
   smooth = false;
 

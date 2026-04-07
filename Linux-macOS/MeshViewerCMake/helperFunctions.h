@@ -74,7 +74,7 @@ bool drawmesh = true;
 bool drawwireframe = false;
 bool drawmeshvertices = false;
 bool drawsilhouette = false;
-bool drawnormals = false;
+bool drawnormals = true;
 
 void makeBuffers(myMesh *input_mesh) {
   vector<GLfloat> verts;
