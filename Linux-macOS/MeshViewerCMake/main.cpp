@@ -182,11 +182,11 @@ void menu(int item) {
 
 // This function is called to display objects on screen.
 void display() {
-  drawmesh = true;
+  drawmesh = false;
   drawwireframe = false;
   drawmeshvertices = false;
-  drawnormals = true;
-  drawsilhouette = false;
+  drawnormals = false;
+  drawsilhouette = true;
   smooth = false;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -301,7 +301,22 @@ void display() {
         continue;
       myVertex *v2 = (*it)->twin->source;
 
-      if (0 /*ADD THE CONDITION TO CHECK IF THE HALFEDGE DEFINED BY (V1, V2) IS A SILHOUETTE EDGE*/) {
+      // Avoid adding both halfedges of the same geometric edge.
+      if (e > e->twin)
+        continue;
+      if (e->adjacent_face == NULL || e->twin->adjacent_face == NULL)
+        continue;
+      if (e->adjacent_face->normal == NULL || e->twin->adjacent_face->normal == NULL)
+        continue;
+
+      myVector3D view_dir(camera_eye.X - v1->point->X, camera_eye.Y - v1->point->Y,
+                          camera_eye.Z - v1->point->Z);
+      double d1 = (*(e->adjacent_face->normal)) * view_dir;
+      double d2 = (*(e->twin->adjacent_face->normal)) * view_dir;
+      bool face1_visible = (d1 >= 0.0);
+      bool face2_visible = (d2 >= 0.0);
+
+      if (face1_visible != face2_visible) {
         silhouette_edges.push_back(v1->index);
         silhouette_edges.push_back(v2->index);
       }
@@ -366,7 +381,11 @@ void initMesh() {
   closest_face = NULL;
 
   m = new myMesh();
-  if (m->readFile("dolphin.obj")) {
+  bool loaded = m->readFile("dolphin.obj");
+  if (!loaded)
+    loaded = m->readFile("build/dolphin.obj");
+
+  if (loaded) {
     m->computeNormals();
     makeBuffers(m);
   }
