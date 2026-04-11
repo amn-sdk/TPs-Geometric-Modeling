@@ -76,23 +76,23 @@ void menu(int item) {
     break;
   }
   case MENU_DRAWMESH: {
-    drawmesh = true;
+    drawmesh = !drawmesh;
     break;
   }
   case MENU_DRAWMESHVERTICES: {
-    drawmeshvertices = false;
+    drawmeshvertices = !drawmeshvertices;
     break;
   }
   case MENU_DRAWWIREFRAME: {
-    drawwireframe = false;
+    drawwireframe = !drawwireframe;
     break;
   }
   case MENU_DRAWNORMALS: {
-    drawnormals = true;
+    drawnormals = !drawnormals;
     break;
   }
   case MENU_DRAWSILHOUETTE: {
-    drawsilhouette = false;
+    drawsilhouette = !drawsilhouette;
     break;
   }
   case MENU_SELECTCLEAR: {
@@ -182,11 +182,6 @@ void menu(int item) {
 
 // This function is called to display objects on screen.
 void display() {
-  drawmesh = false;
-  drawwireframe = false;
-  drawmeshvertices = false;
-  drawnormals = false;
-  drawsilhouette = true;
   smooth = false;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -237,6 +232,7 @@ void display() {
       glDrawArrays(GL_TRIANGLES, 0, num_triangles * 3);
       glBindVertexArray(0);
     } else {
+      glBindVertexArray(fallback_vao);
       glBindBuffer(GL_ARRAY_BUFFER, buffers[BUFFER_VERTICES]);
       glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
       glEnableVertexAttribArray(0);
@@ -245,8 +241,8 @@ void display() {
       glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
       glEnableVertexAttribArray(1);
       glDrawArrays(GL_TRIANGLES, 0, num_triangles * 3);
+      glBindVertexArray(0);
     }
-
     glUniform1i(glGetUniformLocation(shaderprogram, "type"), 0);
     glDisable(GL_POLYGON_OFFSET_FILL);
   }
@@ -294,7 +290,6 @@ void display() {
     vector<GLuint> silhouette_edges;
     for (vector<myHalfedge *>::iterator it = m->halfedges.begin();
          it != m->halfedges.end(); it++) {
-      /**** TODO: WRITE CODE TO COMPUTE SILHOUETTE ****/
       myHalfedge *e = (*it);
       myVertex *v1 = (*it)->source;
       if ((*it)->twin == NULL)
@@ -353,10 +348,12 @@ void display() {
       glDrawArrays(GL_LINES, 0, m->vertices.size() * 2);
       glBindVertexArray(0);
     } else {
+      glBindVertexArray(fallback_vao);
       glBindBuffer(GL_ARRAY_BUFFER, buffers[BUFFER_VERTICESFORNORMALDRAWING]);
       glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
       glEnableVertexAttribArray(0);
       glDrawArrays(GL_LINES, 0, m->vertices.size() * 2);
+      glBindVertexArray(0);
     }
   }
 
@@ -386,6 +383,7 @@ void initMesh() {
     loaded = m->readFile("build/dolphin.obj");
 
   if (loaded) {
+    m->triangulate();
     m->computeNormals();
     makeBuffers(m);
   }

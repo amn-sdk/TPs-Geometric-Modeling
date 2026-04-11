@@ -69,12 +69,12 @@ enum {
 };
 
 bool smooth = false; // smooth = true means smooth normals, default false means
-                     // face-wise normals.
 bool drawmesh = true;
-bool drawwireframe = false;
+bool drawwireframe = true;
 bool drawmeshvertices = false;
 bool drawsilhouette = false;
-bool drawnormals = true;
+bool drawnormals = false;
+GLuint fallback_vao = 0;
 
 void makeBuffers(myMesh *input_mesh) {
   vector<GLfloat> verts;
@@ -173,16 +173,9 @@ void makeBuffers(myMesh *input_mesh) {
   for (unsigned int i = 0; i < input_mesh->vertices.size(); i++)
     indices_vertices.push_back(input_mesh->vertices[i]->index);
 
-  glDeleteBuffers(NUM_BUFFERS, &buffers[0]);
-#ifdef __APPLE__
-  if (GLEW_APPLE_vertex_array_object)
-    glDeleteVertexArrays(NUM_BUFFERS, &vaos[0]);
-#else
-  glDeleteVertexArrays(NUM_BUFFERS, &vaos[0]);
-#endif
-
+  if (buffers[0] != 0)
+    glDeleteBuffers(NUM_BUFFERS, &buffers[0]);
   buffers.assign(buffers.size(), 0);
-  vaos.assign(vaos.size(), 0);
 
   glGenBuffers(NUM_BUFFERS, &buffers[0]);
 
@@ -220,7 +213,8 @@ void makeBuffers(myMesh *input_mesh) {
     return;
   }
 
-  glGenVertexArrays(NUM_BUFFERS, &vaos[0]);
+  if (vaos[0] == 0)
+    glGenVertexArrays(NUM_BUFFERS, &vaos[0]);
 
   glBindVertexArray(vaos[VAO_TRIANGLES_NORMSPERVERTEX]);
   glBindBuffer(GL_ARRAY_BUFFER, buffers[BUFFER_VERTICES]);
@@ -537,6 +531,9 @@ void initInterface(int argc, char *argv[]) {
 
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
+
+  glGenVertexArrays(1, &fallback_vao);
+  glBindVertexArray(fallback_vao);
 
   glClearColor(1, 1, 1, 0);
 
