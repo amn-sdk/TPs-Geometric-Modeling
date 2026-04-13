@@ -295,15 +295,12 @@ void display() {
       if ((*it)->twin == NULL)
         continue;
       myVertex *v2 = (*it)->twin->source;
-
-      // Avoid adding both halfedges of the same geometric edge.
       if (e > e->twin)
         continue;
       if (e->adjacent_face == NULL || e->twin->adjacent_face == NULL)
         continue;
       if (e->adjacent_face->normal == NULL || e->twin->adjacent_face->normal == NULL)
         continue;
-
       myVector3D view_dir(camera_eye.X - v1->point->X, camera_eye.Y - v1->point->Y,
                           camera_eye.Z - v1->point->Z);
       double d1 = (*(e->adjacent_face->normal)) * view_dir;
