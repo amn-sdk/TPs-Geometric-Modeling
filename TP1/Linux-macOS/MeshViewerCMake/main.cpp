@@ -264,7 +264,6 @@ void display() {
       glDrawElements(GL_POINTS, m->vertices.size(), GL_UNSIGNED_INT, 0);
     }
   }
-
   if (drawwireframe) {
     glLineWidth(2.0);
     color[0] = 0.0f, color[1] = 0.0f, color[2] = 0.0f, color[3] = 1.0f;
@@ -286,7 +285,6 @@ void display() {
     glLineWidth(4.0);
     color[0] = 1.0f, color[1] = 0.0f, color[2] = 0.0f, color[3] = 1.0f;
     glUniform4fv(glGetUniformLocation(shaderprogram, "kd"), 1, &color[0]);
-
     vector<GLuint> silhouette_edges;
     for (vector<myHalfedge *>::iterator it = m->halfedges.begin();
          it != m->halfedges.end(); it++) {
@@ -295,43 +293,35 @@ void display() {
       if ((*it)->twin == NULL)
         continue;
       myVertex *v2 = (*it)->twin->source;
-      if (e > e->twin)
+      if (e>e->twin)
         continue;
-      if (e->adjacent_face == NULL || e->twin->adjacent_face == NULL)
+      if (e->adjacent_face==NULL||e->twin->adjacent_face==NULL)
         continue;
-      if (e->adjacent_face->normal == NULL || e->twin->adjacent_face->normal == NULL)
+      if (e->adjacent_face->normal==NULL||e->twin->adjacent_face->normal==NULL)
         continue;
-      myVector3D view_dir(camera_eye.X - v1->point->X, camera_eye.Y - v1->point->Y,
-                          camera_eye.Z - v1->point->Z);
-      double d1 = (*(e->adjacent_face->normal)) * view_dir;
-      double d2 = (*(e->twin->adjacent_face->normal)) * view_dir;
-      bool face1_visible = (d1 >= 0.0);
-      bool face2_visible = (d2 >= 0.0);
-
-      if (face1_visible != face2_visible) {
+      myPoint3D milieu((v1->point->X+v2->point->X)*0.5,
+                       (v1->point->Y+v2->point->Y)*0.5,
+                       (v1->point->Z+v2->point->Z)*0.5);
+      myVector3D view_dir(camera_eye.X- milieu.X, camera_eye.Y - milieu.Y,
+                          camera_eye.Z -milieu.Z);
+      double d1=(*(e->adjacent_face->normal)) * view_dir;
+      double d2=(*(e->twin->adjacent_face->normal))*view_dir;
+      if (d1*d2< 0.0) {
         silhouette_edges.push_back(v1->index);
         silhouette_edges.push_back(v2->index);
       }
     }
-
     GLuint silhouette_edges_buffer;
     glGenBuffers(1, &silhouette_edges_buffer);
-
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, silhouette_edges_buffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                 silhouette_edges.size() * sizeof(GLuint), &silhouette_edges[0],
-                 GL_STATIC_DRAW);
-
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, silhouette_edges.size() * sizeof(GLuint), &silhouette_edges[0], GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, buffers[BUFFER_VERTICES]);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(0);
-
     glBindBuffer(GL_ARRAY_BUFFER, buffers[BUFFER_NORMALS_PERVERTEX]);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(1);
-
     glDrawElements(GL_LINES, silhouette_edges.size(), GL_UNSIGNED_INT, 0);
-
     glDeleteBuffers(1, &silhouette_edges_buffer);
   }
 
@@ -354,7 +344,6 @@ void display() {
     }
   }
 
-  // Affichage du texte dans la fenetre (primitives + FPS)
   glDisable(GL_DEPTH_TEST);
   vector<GLfloat> red   = {1.0f, 0.0f, 0.0f};
   vector<GLfloat> black = {0.0f, 0.0f, 0.0f};
@@ -373,12 +362,10 @@ void initMesh() {
   closest_edge = NULL;
   closest_vertex = NULL;
   closest_face = NULL;
-
   m = new myMesh();
   bool loaded = m->readFile("dolphin.obj");
   if (!loaded)
     loaded = m->readFile("build/dolphin.obj");
-
   if (loaded) {
     m->triangulate();
     m->computeNormals();
@@ -388,9 +375,7 @@ void initMesh() {
 
 int main(int argc, char *argv[]) {
   initInterface(argc, argv);
-
   initMesh();
-
   glutMainLoop();
   return 0;
 }

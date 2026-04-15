@@ -17,25 +17,28 @@ myVertex::~myVertex(void)
 
 void myVertex::computeNormal()
 {
-	normal->dX = 0.0;
-	normal->dY = 0.0;
-	normal->dZ = 0.0;
-
-	if (originof == NULL)
+	normal->dX=  0.0;
+	normal->dY=0.0;
+	normal->dZ= 0.0;
+	int nb=0;
+	if (originof==NULL)
 		return;
-
 	myHalfedge *h = originof;
 	do {
-		if (h->adjacent_face != NULL && h->adjacent_face->normal != NULL) {
-			normal->dX += h->adjacent_face->normal->dX;
-			normal->dY += h->adjacent_face->normal->dY;
-			normal->dZ += h->adjacent_face->normal->dZ;
+		if (h->adjacent_face != NULL && h->adjacent_face->normal!= NULL) {
+			normal->dX+= h->adjacent_face->normal->dX;
+			normal->dY+= h->adjacent_face->normal->dY;
+			normal->dZ+= h->adjacent_face->normal->dZ;
+			nb++;
 		}
-
 		if (h->twin == NULL)
 			break;
 		h = h->twin->next;
 	} while (h != originof);
-
+	if (nb > 0) {
+		normal->dX /= nb;
+		normal->dY /= nb;
+		normal->dZ /= nb;
+	}
 	normal->normalize();
 }
