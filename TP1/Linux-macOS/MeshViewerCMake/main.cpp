@@ -363,7 +363,27 @@ void initMesh() {
   closest_vertex = NULL;
   closest_face = NULL;
   m = new myMesh();
-  bool loaded = m->readFile("dolphin.obj");
+  bool loaded = m->readFile("concave_test (1).obj");
+  if (!loaded)
+    loaded = m->readFile("../concave_test (1).obj");
+  if (!loaded)
+    loaded = m->readFile("build/concave_test (1).obj");
+  if (!loaded)
+    loaded = m->readFile("TP1/Linux-macOS/MeshViewerCMake/concave_test (1).obj");
+  if (!loaded)
+    loaded = m->readFile("TP1/Linux-macOS/MeshViewerCMake/build/concave_test (1).obj");
+  if (!loaded)
+    loaded = m->readFile("octogon.obj");
+  if (!loaded)
+    loaded = m->readFile("../octogon.obj");
+  if (!loaded)
+    loaded = m->readFile("build/octogon.obj");
+  if (!loaded)
+    loaded = m->readFile("TP1/Linux-macOS/MeshViewerCMake/octogon.obj");
+  if (!loaded)
+    loaded = m->readFile("TP1/Linux-macOS/MeshViewerCMake/build/octogon.obj");
+  if (!loaded)
+    loaded = m->readFile("dolphin.obj");
   if (!loaded)
     loaded = m->readFile("build/dolphin.obj");
   if (loaded) {

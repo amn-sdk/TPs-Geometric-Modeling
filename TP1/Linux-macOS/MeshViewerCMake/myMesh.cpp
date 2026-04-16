@@ -4,6 +4,7 @@
 #include <sstream>
 #include <map>
 #include <utility>
+#include <array>
 #include <GL/glew.h>
 #include "myVector3D.h"
 
@@ -212,74 +213,155 @@ bool myMesh::triangulate(myFace *f)
 		if (h == NULL) return false;
 		bords.push_back(h);
 		h = h->next;
-		if ((int)bords.size() > 1000) return false;
+		if ((int)bords.size()>1000) return false;
 	} while (h != f->adjacent_halfedge);
-
 	int nb = (int)bords.size();
 	if (nb <= 3)
 		return false;
 
-	int nb_diag = nb - 3;
-	vector<myHalfedge *> diag(nb_diag);
-	vector<myHalfedge *> diag_inv(nb_diag);
+	vector<myVertex *> poly(nb);
+	for (int i = 0; i < nb; i++)
+		poly[i] = bords[i]->source;
 
-	for (int i = 0; i < nb_diag; i++) {
-		diag[i]     = new myHalfedge();
-		diag_inv[i] = new myHalfedge();
+	auto proj = [&](myVertex *v, int axe) -> pair<double, double> {
+		if (axe == 0) return make_pair(v->point->Y, v->point->Z);
+		if (axe == 1) return make_pair(v->point->X, v->point->Z);
+		return make_pair(v->point->X, v->point->Y);
+	};
 
-		diag[i]->source     = bords[i + 2]->source;
-		diag_inv[i]->source = bords[0]->source;
+	myVector3D n(0.0, 0.0, 0.0);
+	for (int i = 0; i < nb; i++) {
+		myPoint3D *p = poly[i]->point;
+		myPoint3D *q = poly[(i + 1) % nb]->point;
+		n.dX += (p->Y - q->Y) * (p->Z + q->Z);
+		n.dY += (p->Z - q->Z) * (p->X + q->X);
+		n.dZ += (p->X - q->X) * (p->Y + q->Y);
+	}
+	double ax = fabs(n.dX), ay = fabs(n.dY), az = fabs(n.dZ);
+	int axe = 2;
+	if (ax >= ay && ax >= az) axe = 0;
+	else if (ay >= ax && ay >= az) axe = 1;
 
-		diag[i]->twin     = diag_inv[i];
-		diag_inv[i]->twin = diag[i];
+	vector<int> ids(nb);
+	for (int i = 0; i < nb; i++) ids[i] = i;
 
-		halfedges.push_back(diag[i]);
-		halfedges.push_back(diag_inv[i]);
+	auto orient2d = [&](int i0, int i1, int i2) -> double {
+		pair<double, double> a = proj(poly[i0], axe);
+		pair<double, double> b = proj(poly[i1], axe);
+		pair<double, double> c = proj(poly[i2], axe);
+		return (b.first - a.first) * (c.second - a.second) - (b.second - a.second) * (c.first - a.first);
+	};
+
+	double aire = 0.0;
+	for (int i = 0; i < nb; i++) {
+		pair<double, double> p = proj(poly[i], axe);
+		pair<double, double> q = proj(poly[(i + 1) % nb], axe);
+		aire += p.first * q.second - q.first * p.second;
+	}
+	bool ccw = (aire > 0.0);
+
+	auto dansTriangle = [&](int ia, int ib, int ic, int ip) -> bool {
+		double c1 = orient2d(ia, ib, ip);
+		double c2 = orient2d(ib, ic, ip);
+		double c3 = orient2d(ic, ia, ip);
+		double eps = 1e-12;
+		if (ccw) return c1 >= -eps && c2 >= -eps && c3 >= -eps;
+		return c1 <= eps && c2 <= eps && c3 <= eps;
+	};
+
+	vector<array<int, 3>> tris;
+	int garde = 0;
+	while ((int)ids.size() > 3 && garde < 10000) {
+		garde++;
+		bool coupe = false;
+		int m = (int)ids.size();
+		for (int i = 0; i < m; i++) {
+			int ip = ids[(i - 1 + m) % m];
+			int ic = ids[i];
+			int in = ids[(i + 1) % m];
+			double o = orient2d(ip, ic, in);
+			if ((ccw && o <= 1e-12) || (!ccw && o >= -1e-12))
+				continue;
+			bool contient = false;
+			for (int j = 0; j < m; j++) {
+				int it = ids[j];
+				if (it == ip || it == ic || it == in) continue;
+				if (dansTriangle(ip, ic, in, it)) {
+					contient = true;
+					break;
+				}
+			}
+			if (contient) continue;
+			tris.push_back({ ip, ic, in });
+			ids.erase(ids.begin() + i);
+			coupe = true;
+			break;
+		}
+		if (!coupe) return false;
+	}
+	if ((int)ids.size() == 3)
+		tris.push_back({ ids[0], ids[1], ids[2] });
+	if ((int)tris.size() != nb - 2)
+		return false;
+
+	map<pair<myVertex *, myVertex *>, myHalfedge *> bord_map;
+	for (int i = 0; i < nb; i++) {
+		myVertex *a = poly[i];
+		myVertex *b = poly[(i + 1) % nb];
+		bord_map[make_pair(a, b)] = bords[i];
 	}
 
-	f->adjacent_halfedge = bords[0];
-	bords[0]->adjacent_face = f;
-	bords[1]->adjacent_face = f;
-	diag[0]->adjacent_face  = f;
-	bords[0]->next = bords[1]; 
-	bords[1]->next = diag[0]; 
-	diag[0]->next = bords[0];
-	bords[0]->prev = diag[0];  
-	bords[1]->prev = bords[0];
-	 diag[0]->prev = bords[1];
+	map<pair<myVertex *, myVertex *>, myHalfedge *> interne_map;
+	vector<myFace *> nv_faces;
+	nv_faces.push_back(f);
+	for (int i = 1; i < (int)tris.size(); i++)
+		nv_faces.push_back(new myFace());
 
-	for (int i = 0; i < nb_diag - 1; i++) {
-		myFace *nv_face = new myFace();
-		nv_face->adjacent_halfedge = diag_inv[i];
+	for (int t = 0; t < (int)tris.size(); t++) {
+		int ia = tris[t][0], ib = tris[t][1], ic = tris[t][2];
+		myVertex *va = poly[ia], *vb = poly[ib], *vc = poly[ic];
+		myVertex *vs[3] = { va, vb, vc };
+		myHalfedge *hes[3] = { NULL, NULL, NULL };
 
-		diag_inv[i]->adjacent_face = nv_face;
-		bords[i +2]->adjacent_face= nv_face;
-		diag[i+ 1]->adjacent_face = nv_face;
+		for (int e = 0; e < 3; e++) {
+			myVertex *s = vs[e];
+			myVertex *d = vs[(e + 1) % 3];
+			pair<myVertex *, myVertex *> k = make_pair(s, d);
+			map<pair<myVertex *, myVertex *>, myHalfedge *>::iterator itb = bord_map.find(k);
+			if (itb != bord_map.end()) {
+				hes[e] = itb->second;
+			} else {
+				map<pair<myVertex *, myVertex *>, myHalfedge *>::iterator iti = interne_map.find(k);
+				if (iti != interne_map.end()) {
+					hes[e] = iti->second;
+				} else {
+					myHalfedge *hn = new myHalfedge();
+					hn->source = s;
+					if (s->originof == NULL) s->originof = hn;
+					map<pair<myVertex *, myVertex *>, myHalfedge *>::iterator itr = interne_map.find(make_pair(d, s));
+					if (itr != interne_map.end()) {
+						hn->twin = itr->second;
+						itr->second->twin = hn;
+					}
+					interne_map[k] = hn;
+					halfedges.push_back(hn);
+					hes[e] = hn;
+				}
+			}
+		}
 
-		diag_inv[i]->next  = bords[i+2]; 
-		bords[i +2]->next = diag[i+1];
-		 diag[i +1]->next = diag_inv[i];
-		diag_inv[i]->prev  = diag[i+1]; 
-		 bords[i+ 2]->prev = diag_inv[i]; diag[i + 1]->prev = bords[i + 2];
-
-		faces.push_back(nv_face);
+		myFace *ft = nv_faces[t];
+		ft->adjacent_halfedge = hes[0];
+		for (int e = 0; e < 3; e++) {
+			hes[e]->adjacent_face = ft;
+			hes[e]->next = hes[(e + 1) % 3];
+			hes[e]->prev = hes[(e + 2) % 3];
+		}
 	}
 
-	myFace *derniere = new myFace();
-	derniere->adjacent_halfedge = diag_inv[nb_diag - 1];
+	for (int i = 1; i < (int)nv_faces.size(); i++)
+		faces.push_back(nv_faces[i]);
 
-	diag_inv[nb_diag - 1]->adjacent_face = derniere;
-	bords[nb-2]->adjacent_face = derniere;
-	bords[nb-1]->adjacent_face= derniere;
-
-	diag_inv[nb_diag - 1]->next =bords[nb-2]; 
-	bords[nb-2]->next = bords[nb-1]; 
-	bords[nb-1]->next = diag_inv[nb_diag- 1];
-	diag_inv[nb_diag-1]->prev =bords[nb- 1];
-	 bords[nb- 2]->prev= diag_inv[nb_diag -1]; 
-	 bords[nb-1]->prev = bords[nb- 2];
-
-	faces.push_back(derniere);
 	return true;
 }
 
