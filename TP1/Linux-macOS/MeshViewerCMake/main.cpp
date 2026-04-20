@@ -363,11 +363,11 @@ void initMesh() {
   closest_vertex = NULL;
   closest_face = NULL;
   m = new myMesh();
-  bool loaded = m->readFile("concave_holes (1).obj");
+  bool loaded = m->readFile("kelvin_cell (1).obj");
   if (!loaded)
-    loaded = m->readFile("../concave_holes (1).obj");
+    loaded = m->readFile("../kelvin_cell (1).obj");
   if (!loaded)
-    loaded = m->readFile("build/concave_holes (1).obj");
+    loaded = m->readFile("build/kelvin_cell (1).obj");
   if (loaded) {
     m->triangulate();
     m->computeNormals();

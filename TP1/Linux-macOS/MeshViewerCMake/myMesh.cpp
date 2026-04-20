@@ -222,17 +222,40 @@ bool myMesh::triangulate(myFace *f)
 	vector<myVertex *> pt(n);
 	for (int i = 0; i < n; i++) pt[i] = bord[i]->source;
 
+	double nx = 0.0, ny = 0.0, nz = 0.0;
+	for (int i = 0; i < n; i++) {
+		int j = (i + 1) % n;
+		double x1 = pt[i]->point->X, y1 = pt[i]->point->Y, z1 = pt[i]->point->Z;
+		double x2 = pt[j]->point->X, y2 = pt[j]->point->Y, z2 = pt[j]->point->Z;
+		nx += (y1 - y2) * (z1 + z2);
+		ny += (z1 - z2) * (x1 + x2);
+		nz += (x1 - x2) * (y1 + y2);
+	}
+
+	int axe = 2;
+	double ax = fabs(nx), ay = fabs(ny), az = fabs(nz);
+	if (ax >= ay && ax >= az) axe = 0;
+	else if (ay >= ax && ay >= az) axe = 1;
+
+	vector<pair<double, double>> p2(n);
+	for (int i = 0; i < n; i++) {
+		double x = pt[i]->point->X, y = pt[i]->point->Y, z = pt[i]->point->Z;
+		if (axe == 0) p2[i] = make_pair(y, z);
+		else if (axe == 1) p2[i] = make_pair(x, z);
+		else p2[i] = make_pair(x, y);
+	}
+
 	auto orient = [&](int a, int b, int c) -> double {
-		double ax = pt[a]->point->X, ay = pt[a]->point->Y;
-		double bx = pt[b]->point->X, by = pt[b]->point->Y;
-		double cx = pt[c]->point->X, cy = pt[c]->point->Y;
-		return (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
+		double ax2 = p2[a].first, ay2 = p2[a].second;
+		double bx2 = p2[b].first, by2 = p2[b].second;
+		double cx2 = p2[c].first, cy2 = p2[c].second;
+		return (bx2 - ax2) * (cy2 - ay2) - (by2 - ay2) * (cx2 - ax2);
 	};
 
 	double aire = 0.0;
 	for (int i = 0; i < n; i++) {
 		int j = (i + 1) % n;
-		aire += pt[i]->point->X * pt[j]->point->Y - pt[j]->point->X * pt[i]->point->Y;
+		aire += p2[i].first * p2[j].second - p2[j].first * p2[i].second;
 	}
 	bool sens_horaire = (aire < 0.0);
 
