@@ -244,6 +244,13 @@ bool myMesh::triangulate(myFace *f)
 		return (o1 >= 0.0 && o2 >= 0.0 && o3 >= 0.0);
 	};
 
+	auto meme = [&](int i, int j) -> bool {
+		double dx = pt[i]->point->X - pt[j]->point->X;
+		double dy = pt[i]->point->Y - pt[j]->point->Y;
+		double dz = pt[i]->point->Z - pt[j]->point->Z;
+		return (dx * dx + dy * dy + dz * dz) < 1e-16;
+	};
+
 	vector<int> id;
 	for (int i = 0; i < n; i++) id.push_back(i);
 	vector<array<int, 3>> tri;
@@ -257,6 +264,7 @@ bool myMesh::triangulate(myFace *f)
 			int a = id[(i - 1 + m) % m];
 			int b = id[i];
 			int c = id[(i + 1) % m];
+			if (meme(a, b) || meme(b, c) || meme(c, a)) continue;
 			double o = orient(a, b, c);
 			if (!sens_horaire && o <= 0.0) continue;
 			if (sens_horaire && o >= 0.0) continue;
@@ -264,6 +272,7 @@ bool myMesh::triangulate(myFace *f)
 			for (int j = 0; j < m; j++) {
 				int p = id[j];
 				if (p == a || p == b || p == c) continue;
+				if (meme(p, a) || meme(p, b) || meme(p, c)) continue;
 				if (dedans(a, b, c, p)) {
 					bloc = true;
 					break;
