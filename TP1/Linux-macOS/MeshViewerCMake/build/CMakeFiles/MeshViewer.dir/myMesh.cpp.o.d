@@ -1,8 +1,8 @@
 CMakeFiles/MeshViewer.dir/myMesh.cpp.o: \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -50,8 +50,8 @@ CMakeFiles/MeshViewer.dir/myMesh.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/math.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/math.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__math/abs.h \
@@ -847,4 +847,4 @@ CMakeFiles/MeshViewer.dir/myMesh.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/OpenGLAvailability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/os/availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.h
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.h

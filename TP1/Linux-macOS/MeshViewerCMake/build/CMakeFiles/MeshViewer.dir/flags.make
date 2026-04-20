@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake" -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -isystem /opt/homebrew/include
+CXX_INCLUDES = -I"/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake" -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -isystem /opt/homebrew/include
 
 CXX_FLAGS = -std=gnu++17
 

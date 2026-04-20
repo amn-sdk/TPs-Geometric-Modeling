@@ -53,10 +53,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake"
+CMAKE_SOURCE_DIR = "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build"
+CMAKE_BINARY_DIR = "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/MeshViewer.dir/depend.make
@@ -73,102 +73,102 @@ CMakeFiles/MeshViewer.dir/codegen:
 .PHONY : CMakeFiles/MeshViewer.dir/codegen
 
 CMakeFiles/MeshViewer.dir/main.cpp.o: CMakeFiles/MeshViewer.dir/flags.make
-CMakeFiles/MeshViewer.dir/main.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp
+CMakeFiles/MeshViewer.dir/main.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp
 CMakeFiles/MeshViewer.dir/main.cpp.o: CMakeFiles/MeshViewer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/MeshViewer.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/main.cpp.o -MF CMakeFiles/MeshViewer.dir/main.cpp.o.d -o CMakeFiles/MeshViewer.dir/main.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/MeshViewer.dir/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/main.cpp.o -MF CMakeFiles/MeshViewer.dir/main.cpp.o.d -o CMakeFiles/MeshViewer.dir/main.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp"
 
 CMakeFiles/MeshViewer.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MeshViewer.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp" > CMakeFiles/MeshViewer.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp" > CMakeFiles/MeshViewer.dir/main.cpp.i
 
 CMakeFiles/MeshViewer.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MeshViewer.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp" -o CMakeFiles/MeshViewer.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp" -o CMakeFiles/MeshViewer.dir/main.cpp.s
 
 CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o: CMakeFiles/MeshViewer.dir/flags.make
-CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.cpp
+CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.cpp
 CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o: CMakeFiles/MeshViewer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o -MF CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o.d -o CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o -MF CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o.d -o CMakeFiles/MeshViewer.dir/myHalfedge.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.cpp"
 
 CMakeFiles/MeshViewer.dir/myHalfedge.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MeshViewer.dir/myHalfedge.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.cpp" > CMakeFiles/MeshViewer.dir/myHalfedge.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.cpp" > CMakeFiles/MeshViewer.dir/myHalfedge.cpp.i
 
 CMakeFiles/MeshViewer.dir/myHalfedge.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MeshViewer.dir/myHalfedge.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.cpp" -o CMakeFiles/MeshViewer.dir/myHalfedge.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.cpp" -o CMakeFiles/MeshViewer.dir/myHalfedge.cpp.s
 
 CMakeFiles/MeshViewer.dir/myVector3D.cpp.o: CMakeFiles/MeshViewer.dir/flags.make
-CMakeFiles/MeshViewer.dir/myVector3D.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.cpp
+CMakeFiles/MeshViewer.dir/myVector3D.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.cpp
 CMakeFiles/MeshViewer.dir/myVector3D.cpp.o: CMakeFiles/MeshViewer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/MeshViewer.dir/myVector3D.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myVector3D.cpp.o -MF CMakeFiles/MeshViewer.dir/myVector3D.cpp.o.d -o CMakeFiles/MeshViewer.dir/myVector3D.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/MeshViewer.dir/myVector3D.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myVector3D.cpp.o -MF CMakeFiles/MeshViewer.dir/myVector3D.cpp.o.d -o CMakeFiles/MeshViewer.dir/myVector3D.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.cpp"
 
 CMakeFiles/MeshViewer.dir/myVector3D.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MeshViewer.dir/myVector3D.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.cpp" > CMakeFiles/MeshViewer.dir/myVector3D.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.cpp" > CMakeFiles/MeshViewer.dir/myVector3D.cpp.i
 
 CMakeFiles/MeshViewer.dir/myVector3D.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MeshViewer.dir/myVector3D.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.cpp" -o CMakeFiles/MeshViewer.dir/myVector3D.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.cpp" -o CMakeFiles/MeshViewer.dir/myVector3D.cpp.s
 
 CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o: CMakeFiles/MeshViewer.dir/flags.make
-CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp
+CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp
 CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o: CMakeFiles/MeshViewer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o -MF CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o.d -o CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o -MF CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o.d -o CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp"
 
 CMakeFiles/MeshViewer.dir/myPoint3D.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MeshViewer.dir/myPoint3D.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp" > CMakeFiles/MeshViewer.dir/myPoint3D.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp" > CMakeFiles/MeshViewer.dir/myPoint3D.cpp.i
 
 CMakeFiles/MeshViewer.dir/myPoint3D.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MeshViewer.dir/myPoint3D.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp" -o CMakeFiles/MeshViewer.dir/myPoint3D.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp" -o CMakeFiles/MeshViewer.dir/myPoint3D.cpp.s
 
 CMakeFiles/MeshViewer.dir/myFace.cpp.o: CMakeFiles/MeshViewer.dir/flags.make
-CMakeFiles/MeshViewer.dir/myFace.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.cpp
+CMakeFiles/MeshViewer.dir/myFace.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.cpp
 CMakeFiles/MeshViewer.dir/myFace.cpp.o: CMakeFiles/MeshViewer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/MeshViewer.dir/myFace.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myFace.cpp.o -MF CMakeFiles/MeshViewer.dir/myFace.cpp.o.d -o CMakeFiles/MeshViewer.dir/myFace.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/MeshViewer.dir/myFace.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myFace.cpp.o -MF CMakeFiles/MeshViewer.dir/myFace.cpp.o.d -o CMakeFiles/MeshViewer.dir/myFace.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.cpp"
 
 CMakeFiles/MeshViewer.dir/myFace.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MeshViewer.dir/myFace.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.cpp" > CMakeFiles/MeshViewer.dir/myFace.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.cpp" > CMakeFiles/MeshViewer.dir/myFace.cpp.i
 
 CMakeFiles/MeshViewer.dir/myFace.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MeshViewer.dir/myFace.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.cpp" -o CMakeFiles/MeshViewer.dir/myFace.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.cpp" -o CMakeFiles/MeshViewer.dir/myFace.cpp.s
 
 CMakeFiles/MeshViewer.dir/myMesh.cpp.o: CMakeFiles/MeshViewer.dir/flags.make
-CMakeFiles/MeshViewer.dir/myMesh.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp
+CMakeFiles/MeshViewer.dir/myMesh.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp
 CMakeFiles/MeshViewer.dir/myMesh.cpp.o: CMakeFiles/MeshViewer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/MeshViewer.dir/myMesh.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myMesh.cpp.o -MF CMakeFiles/MeshViewer.dir/myMesh.cpp.o.d -o CMakeFiles/MeshViewer.dir/myMesh.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/MeshViewer.dir/myMesh.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myMesh.cpp.o -MF CMakeFiles/MeshViewer.dir/myMesh.cpp.o.d -o CMakeFiles/MeshViewer.dir/myMesh.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp"
 
 CMakeFiles/MeshViewer.dir/myMesh.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MeshViewer.dir/myMesh.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp" > CMakeFiles/MeshViewer.dir/myMesh.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp" > CMakeFiles/MeshViewer.dir/myMesh.cpp.i
 
 CMakeFiles/MeshViewer.dir/myMesh.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MeshViewer.dir/myMesh.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp" -o CMakeFiles/MeshViewer.dir/myMesh.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.cpp" -o CMakeFiles/MeshViewer.dir/myMesh.cpp.s
 
 CMakeFiles/MeshViewer.dir/myVertex.cpp.o: CMakeFiles/MeshViewer.dir/flags.make
-CMakeFiles/MeshViewer.dir/myVertex.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.cpp
+CMakeFiles/MeshViewer.dir/myVertex.cpp.o: /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.cpp
 CMakeFiles/MeshViewer.dir/myVertex.cpp.o: CMakeFiles/MeshViewer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/MeshViewer.dir/myVertex.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myVertex.cpp.o -MF CMakeFiles/MeshViewer.dir/myVertex.cpp.o.d -o CMakeFiles/MeshViewer.dir/myVertex.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/MeshViewer.dir/myVertex.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MeshViewer.dir/myVertex.cpp.o -MF CMakeFiles/MeshViewer.dir/myVertex.cpp.o.d -o CMakeFiles/MeshViewer.dir/myVertex.cpp.o -c "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.cpp"
 
 CMakeFiles/MeshViewer.dir/myVertex.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MeshViewer.dir/myVertex.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.cpp" > CMakeFiles/MeshViewer.dir/myVertex.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.cpp" > CMakeFiles/MeshViewer.dir/myVertex.cpp.i
 
 CMakeFiles/MeshViewer.dir/myVertex.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MeshViewer.dir/myVertex.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.cpp" -o CMakeFiles/MeshViewer.dir/myVertex.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.cpp" -o CMakeFiles/MeshViewer.dir/myVertex.cpp.s
 
 # Object files for target MeshViewer
 MeshViewer_OBJECTS = \
@@ -194,7 +194,7 @@ MeshViewer: CMakeFiles/MeshViewer.dir/build.make
 MeshViewer: /opt/homebrew/lib/libGLEW.dylib
 MeshViewer: /opt/homebrew/lib/libglm.dylib
 MeshViewer: CMakeFiles/MeshViewer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable MeshViewer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable MeshViewer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MeshViewer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -206,6 +206,6 @@ CMakeFiles/MeshViewer.dir/clean:
 .PHONY : CMakeFiles/MeshViewer.dir/clean
 
 CMakeFiles/MeshViewer.dir/depend:
-	cd "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles/MeshViewer.dir/DependInfo.cmake" "--color=$(COLOR)" MeshViewer
+	cd "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build" "/Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/build/CMakeFiles/MeshViewer.dir/DependInfo.cmake" "--color=$(COLOR)" MeshViewer
 .PHONY : CMakeFiles/MeshViewer.dir/depend
 

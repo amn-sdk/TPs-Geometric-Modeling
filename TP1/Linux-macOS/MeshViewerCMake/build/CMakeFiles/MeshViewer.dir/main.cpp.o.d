@@ -1,5 +1,5 @@
 CMakeFiles/MeshViewer.dir/main.cpp.o: \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/main.cpp \
   /opt/homebrew/include/GL/glew.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/cstddef \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
@@ -1150,11 +1150,11 @@ CMakeFiles/MeshViewer.dir/main.cpp.o: \
   /opt/homebrew/include/glm/gtc/../mat4x2.hpp \
   /opt/homebrew/include/glm/gtc/../mat4x3.hpp \
   /opt/homebrew/include/glm/gtc/type_ptr.inl \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/helperFunctions.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myMesh.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myFace.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myHalfedge.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVertex.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/helperFunctions.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream

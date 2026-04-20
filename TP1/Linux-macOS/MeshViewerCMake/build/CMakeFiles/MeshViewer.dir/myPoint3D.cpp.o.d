@@ -1,6 +1,6 @@
 CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o: \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.cpp \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myPoint3D.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/math.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -153,7 +153,7 @@ CMakeFiles/MeshViewer.dir/myPoint3D.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__math/rounding_functions.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__math/traits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__math/trigonometric_functions.h \
-  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.h \
+  /Users/aminesaddik/Documents/ESIEE/E4/S2/Geometric\ Modeling/TPs-Geometric-Modeling/TP1/Linux-macOS/MeshViewerCMake/myVector3D.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/ios \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/iosfwd \
