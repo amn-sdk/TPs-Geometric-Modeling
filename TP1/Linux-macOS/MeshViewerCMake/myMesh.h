@@ -14,6 +14,10 @@ public:
 	std::string name;
 
 	void checkMesh();
+	bool testTwins();
+	bool testNext();
+	bool testFaces();
+	bool testVertices();
 	bool readFile(std::string filename);
 	void computeNormals();
 	void normalize();

@@ -32,17 +32,61 @@ void myMesh::clear()
 	vector<myFace *> empty_faces;         faces.swap(empty_faces);
 }
 
+bool myMesh::testTwins()
+{
+	int sans_twin = 0;
+	for (int i = 0; i < (int)halfedges.size(); i++)
+		if (halfedges[i]->twin == NULL) sans_twin++;
+	if (sans_twin > 0)
+		cout << "Warning: " << sans_twin << " demi-aretes sans twin (bord)\n";
+	else
+		cout << "OK twins\n";
+	return (sans_twin == 0);
+}
+
+bool myMesh::testNext()
+{
+	bool ok = true;
+	for (int i = 0; i < (int)halfedges.size(); i++) {
+		myHalfedge *h = halfedges[i];
+		if (h->next == NULL || h->prev == NULL) { ok = false; break; }
+		if (h->next->prev != h) { ok = false; break; }
+	}
+	if (!ok) cout << "Erreur: next/prev incohérents\n";
+	else cout << "OK next/prev\n";
+	return ok;
+}
+
+bool myMesh::testFaces()
+{
+	bool ok = true;
+	for (int i = 0; i < (int)faces.size(); i++) {
+		if (faces[i]->adjacent_halfedge == NULL) { ok = false; break; }
+		if (faces[i]->adjacent_halfedge->adjacent_face != faces[i]) { ok = false; break; }
+	}
+	if (!ok) cout << "Erreur: les faces mal connectées\n";
+	else cout << "OK faces\n";
+	return ok;
+}
+
+bool myMesh::testVertices()
+{
+	bool ok = true;
+	for (int i = 0; i < (int)vertices.size(); i++) {
+		if (vertices[i]->originof == NULL) { ok = false; break; }
+		if (vertices[i]->originof->source != vertices[i]) { ok = false; break; }
+	}
+	if (!ok) cout << "Erreur: les sommets mal connectés\n";
+	else cout << "OK sommets\n";
+	return ok;
+}
+
 void myMesh::checkMesh()
 {
-	vector<myHalfedge *>::iterator it;
-	for (it = halfedges.begin(); it != halfedges.end(); it++)
-	{
-		if ((*it)->twin == NULL)
-			break;
-	}
-	if (it != halfedges.end())
-		cout << "Error! Not all edges have their twins!\n";
-	else cout << "Each edge has a twin!\n";
+	testTwins();
+	testNext();
+	testFaces();
+	testVertices();
 }
 
 
