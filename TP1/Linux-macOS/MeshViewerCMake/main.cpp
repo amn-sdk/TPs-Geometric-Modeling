@@ -363,11 +363,11 @@ void initMesh() {
   closest_vertex = NULL;
   closest_face = NULL;
   m = new myMesh();
-  bool loaded = m->readFile("gear (1).obj");
+  bool loaded = m->readFile("c_gear.obj");
   if (!loaded)
-    loaded = m->readFile("../gear (1).obj");
+    loaded = m->readFile("../c_gear.obj");
   if (!loaded)
-    loaded = m->readFile("build/gear (1).obj");
+    loaded = m->readFile("build/c_gear.obj");
   if (loaded) {
     m->triangulate();
     m->computeNormals();
