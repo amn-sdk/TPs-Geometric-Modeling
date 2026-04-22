@@ -33,7 +33,7 @@ public:
 	bool triangulate(myFace *);
 	void simplify();
 	void simplify(myVertex *);
-
+	void generateSurface();
 	void clear();
 
 	myMesh(void);

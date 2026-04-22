@@ -179,6 +179,13 @@ void menu(int item) {
     makeBuffers(m);
     break;
   }
+  case MENU_GENERATE: {
+    m->generateSurface();
+    m->triangulate();
+    m->computeNormals();
+    makeBuffers(m);
+    break;
+  }
   }
   glutPostRedisplay();
 }
@@ -366,11 +373,11 @@ void initMesh() {
   closest_vertex = NULL;
   closest_face = NULL;
   m = new myMesh();
-  bool loaded = m->readFile("c_gear.obj");
+  bool loaded = m->readFile("surface_revolution.obj");
   if (!loaded)
-    loaded = m->readFile("../c_gear.obj");
+    loaded = m->readFile("../surface_revolution.obj");
   if (!loaded)
-    loaded = m->readFile("build/c_gear.obj");
+    loaded = m->readFile("build/surface_revolution.obj");
   if (loaded) {
     m->triangulate();
     m->computeNormals();

@@ -5,6 +5,7 @@
 #include <map>
 #include <utility>
 #include <array>
+#include <cmath>
 #include <GL/glew.h>
 #include "myVector3D.h"
 
@@ -359,6 +360,79 @@ void myMesh::simplify(myVertex *)
 	simplify();
 }
 
+void myMesh::generateSurface()
+{
+	clear();
+	name = "surface";
+	vector<pair<double, double> > profil;
+	profil.push_back(make_pair(0.62, 0.95));
+	profil.push_back(make_pair(0.58, 0.72));
+	profil.push_back(make_pair(0.48, 0.46));
+	profil.push_back(make_pair(0.26, 0.20));
+	profil.push_back(make_pair(0.20, 0.00));
+	profil.push_back(make_pair(0.26, -0.20));
+	profil.push_back(make_pair(0.52, -0.48));
+	profil.push_back(make_pair(0.66, -0.74));
+	profil.push_back(make_pair(0.72, -0.95));
+	int n = 32;
+	double pi = 3.14159265358979323846;
+	vector<vector<int> > ids(profil.size(), vector<int>(n, -1));
+	for (int k=0; k<(int)profil.size(); k++) {
+		double r = profil[k].first;
+		double y = profil[k].second;
+		for (int i=0; i<n; i++) {
+			double a = 2.0 * pi * (double)i/(double)n;
+			myVertex *v = new myVertex();
+			v->point = new myPoint3D(r * cos(a), y, r * sin(a));
+			vertices.push_back(v);
+			ids[k][i] = (int)vertices.size() - 1;
+		}
+	}
+	vector<vector<int> > polys;
+	for (int k = 0; k < (int)profil.size() - 1; k++) {
+		for (int i =0; i<n; i++) {
+			int j= (i + 1) % n;
+			int a= ids[k][i];
+			int b= ids[k][j];
+			int c= ids[k+1][j];
+			int d= ids[k+1][i];
+			polys.push_back({a, b, c, d});
+		}
+	}
+	map<pair<int, int>, myHalfedge *> twin_map;
+	for (int p = 0; p < (int)polys.size(); p++) {
+		vector<int> &id = polys[p];
+		int m = (int)id.size();
+		if (m < 3) continue;
+		myFace *f = new myFace();
+		vector<myHalfedge *> he(m);
+		for (int i=0; i<m; i++) he[i] = new myHalfedge();
+		f->adjacent_halfedge = he[0];
+
+		for (int i=0; i<m; i++) {
+			int ip = (i-1+ m) % m;
+			int in = (i+1) % m;
+			int s= id[i];
+			int t= id[in];
+			he[i]->source = vertices[s];
+			he[i]->adjacent_face = f;
+			he[i]->prev = he[ip];
+			he[i]->next = he[in];
+			if (vertices[s]->originof == NULL) vertices[s]->originof = he[i];
+			pair<int, int> key = make_pair(s,t);
+			pair<int, int> tkey = make_pair(t,s);
+			map<pair<int, int>, myHalfedge *>::iterator it = twin_map.find(tkey);
+			if (it!= twin_map.end()) {
+				he[i]->twin = it->second;
+				it->second->twin = he[i];
+			} else {
+				twin_map[key] = he[i];
+			}
+			halfedges.push_back(he[i]);
+		}
+		faces.push_back(f);
+	}
+}
 bool myMesh::triangulate(myFace *f)
 {
 	vector<myHalfedge *> bord;
