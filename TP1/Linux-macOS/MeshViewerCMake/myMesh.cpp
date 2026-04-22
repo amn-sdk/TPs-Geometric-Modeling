@@ -241,12 +241,122 @@ void myMesh::subdivisionCatmullClark()
 
 void myMesh::simplify()
 {
-	/**** TODO ****/
+	if (halfedges.size() == 0 || vertices.size() < 2) return;
+	myHalfedge *e_min = NULL;
+	double d_min = 1e100;
+	for (int i = 0; i < (int)halfedges.size(); i++) {
+		myHalfedge *e = halfedges[i];
+		if (e == NULL || e->twin == NULL) continue;
+		if (e->source == NULL || e->twin->source == NULL) continue;
+		if (e > e->twin) continue;
+		double dx=e->source->point->X -e->twin->source->point->X;
+		double dy= e->source->point->Y -e->twin->source->point->Y;
+		double dz =e->source->point->Z -e->twin->source->point->Z;
+		double d2 = dx*dx + dy* dy + dz*dz;
+		if (d2 < d_min) {
+			d_min = d2;
+			e_min = e;
+		}
+	}
+	if (e_min == NULL) return;
+	myVertex *v1 = e_min->source;
+	myVertex *v2 = e_min->twin->source;
+	if (v1 == NULL || v2 == NULL || v1 == v2) return;
+	v1->point->X = 0.5*(v1->point->X+v2->point->X);
+	v1->point->Y = 0.5*(v1->point->Y+v2->point->Y);
+	v1->point->Z = 0.5*(v1->point->Z+v2->point->Z);
+
+	vector<vector<myVertex *> > polys;
+	for (int i=0; i<(int)faces.size(); i++) {
+		myFace *f = faces[i];
+		if (f==NULL || f->adjacent_halfedge == NULL) continue;
+		vector<myVertex *> loop;
+		myHalfedge *h0 =f->adjacent_halfedge;
+		myHalfedge *h =h0;
+		int secu = 0;
+		do {
+			if (h == NULL || h->source == NULL) { loop.clear(); break; }
+			myVertex *v = h->source;
+			if (v == v2) v = v1;
+			loop.push_back(v);
+			h = h->next;
+			secu++;
+		} while (h != h0 && secu < 10000);
+		if (loop.size() < 3) continue;
+
+		vector<myVertex *> clean;
+		for (int j = 0; j < (int)loop.size(); j++) {
+			if (clean.size() == 0 || clean.back() != loop[j]) clean.push_back(loop[j]);
+		}
+		if (clean.size() >= 2 && clean.front() == clean.back()) clean.pop_back();
+		if (clean.size() < 3) continue;
+
+		bool ok = true;
+		for (int j = 0; j < (int)clean.size(); j++) {
+			for (int k = j + 1; k < (int)clean.size(); k++) {
+				if (clean[j] == clean[k]) { ok = false; break; }
+			}
+			if (!ok) break;
+		}
+		if (!ok) continue;
+		polys.push_back(clean);
+	}
+
+	for (int i = 0; i < (int)vertices.size(); i++) {
+		if (vertices[i] == v2) {
+			delete vertices[i];
+			vertices.erase(vertices.begin() + i);
+			break;
+		}
+	}
+
+	for (int i = 0; i < (int)halfedges.size(); i++){
+		if (halfedges[i] != NULL) delete halfedges[i];
+	}
+	for (int i = 0; i < (int)faces.size(); i++){
+		if (faces[i] != NULL) delete faces[i];
+	}
+	halfedges.clear();
+	faces.clear();
+	for (int i = 0; i < (int)vertices.size(); i++) vertices[i]->originof = NULL;
+
+	map<pair<myVertex *, myVertex *>, myHalfedge *> tmap;
+	for (int i = 0; i < (int)polys.size(); i++) {
+		vector<myVertex *> &p = polys[i];
+		int m = (int)p.size();
+		if (m < 3) continue;
+		myFace *f = new myFace();
+		vector<myHalfedge *> he(m);
+		for (int j = 0; j < m; j++) he[j] = new myHalfedge();
+		f->adjacent_halfedge = he[0];
+		for (int j = 0; j < m; j++) {
+			int jn = (j + 1) % m;
+			int jp = (j - 1 + m) % m;
+			he[j]->source = p[j];
+			he[j]->adjacent_face = f;
+			he[j]->next = he[jn];
+			he[j]->prev = he[jp];
+			if (p[j]->originof == NULL) p[j]->originof = he[j];
+			pair<myVertex *, myVertex *> key = make_pair(p[j], p[jn]);
+			pair<myVertex *, myVertex *> rkey = make_pair(p[jn], p[j]);
+			map<pair<myVertex *, myVertex *>, myHalfedge *>::iterator it = tmap.find(rkey);
+			if (it != tmap.end()) {
+				he[j]->twin = it->second;
+				it->second->twin = he[j];
+			} else {
+				tmap[key] = he[j];
+			}
+			halfedges.push_back(he[j]);
+		}
+		faces.push_back(f);
+	}
+
+	checkMesh();
 }
 
 void myMesh::simplify(myVertex *)
 {
-	/**** TODO ****/
+	simplify();
 }
 
 bool myMesh::triangulate(myFace *f)

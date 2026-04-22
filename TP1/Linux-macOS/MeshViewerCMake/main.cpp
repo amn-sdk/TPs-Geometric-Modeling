@@ -174,6 +174,9 @@ void menu(int item) {
   }
   case MENU_SIMPLIFY: {
     m->simplify();
+    m->triangulate();
+    m->computeNormals();
+    makeBuffers(m);
     break;
   }
   }
