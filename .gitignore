@@ -1,0 +1,19 @@
+# CMake / compilation
+build/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+CTestTestfile.cmake
+DartConfiguration.tcl
+Testing/
+
+# Binaires
+MeshViewer
+CatmullClarkTest
+*.o
+*.out
+a.out
+
+# macOS
+.DS_Store

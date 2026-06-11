@@ -510,6 +510,10 @@ void myMesh::simplify()
 	myVertex *v1 = e_min->source;
 	myVertex *v2 = e_min->twin->source;
 	if (v1 == NULL || v2 == NULL || v1 == v2) return;
+
+	unsigned int oldVertices = vertices.size();
+	unsigned int oldFaces = faces.size();
+
 	v1->point->X = 0.5*(v1->point->X+v2->point->X);
 	v1->point->Y = 0.5*(v1->point->Y+v2->point->Y);
 	v1->point->Z = 0.5*(v1->point->Z+v2->point->Z);
@@ -552,6 +556,7 @@ void myMesh::simplify()
 
 	for (int i = 0; i < (int)vertices.size(); i++) {
 		if (vertices[i] == v2) {
+			if (vertices[i]->point != NULL) delete vertices[i]->point;
 			delete vertices[i];
 			vertices.erase(vertices.begin() + i);
 			break;
@@ -599,6 +604,8 @@ void myMesh::simplify()
 		faces.push_back(f);
 	}
 
+	cout << "Simplification: " << oldVertices << " -> " << vertices.size()
+		 << " sommets, " << oldFaces << " -> " << faces.size() << " faces.\n";
 	checkMesh();
 }
 

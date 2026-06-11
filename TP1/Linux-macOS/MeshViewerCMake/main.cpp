@@ -175,8 +175,8 @@ void menu(int item) {
     break;
   }
   case MENU_SIMPLIFY: {
-    m->simplify();
     m->triangulate();
+    m->simplify();
     m->computeNormals();
     makeBuffers(m);
     break;
@@ -372,11 +372,11 @@ void initMesh() {
   closest_vertex = NULL;
   closest_face = NULL;
   m = new myMesh();
-  bool loaded = m->readFile("surface_revolution.obj");
+  bool loaded = m->readFile("dolphin.obj");
   if (!loaded)
-    loaded = m->readFile("../surface_revolution.obj");
+    loaded = m->readFile("../dolphin.obj");
   if (!loaded)
-    loaded = m->readFile("build/surface_revolution.obj");
+    loaded = m->readFile("build/dolphin.obj");
   if (loaded) {
     m->computeNormals();
     makeBuffers(m);
