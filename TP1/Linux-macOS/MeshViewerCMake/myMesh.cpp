@@ -487,23 +487,153 @@ void myMesh::subdivisionCatmullClark()
 	checkMesh();
 }
 
+struct Quadric {
+	double m[4][4];
+	Quadric() {
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++) m[i][j] = 0.0;
+	}
+	void addPlane(double a, double b, double c, double d) {
+		double p[4] = {a, b, c, d};
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				m[i][j] += p[i] * p[j];
+	}
+	void add(const Quadric &q) {
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				m[i][j] += q.m[i][j];
+	}
+	double eval(double x, double y, double z) const {
+		double v[4] = {x, y, z, 1.0};
+		double s = 0.0;
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				s += v[i] * m[i][j] * v[j];
+		return s;
+	}
+};
+
+static bool facePlane(myFace *f, double &a, double &b, double &c, double &d)
+{
+	if (f == NULL || f->adjacent_halfedge == NULL) return false;
+	myHalfedge *h0 = f->adjacent_halfedge;
+	myHalfedge *h1 = h0->next;
+	myHalfedge *h2 = (h1 == NULL) ? NULL : h1->next;
+	if (h2 == NULL || h0->source == NULL || h1->source == NULL || h2->source == NULL)
+		return false;
+	double x0 = h0->source->point->X, y0 = h0->source->point->Y, z0 = h0->source->point->Z;
+	double x1 = h1->source->point->X, y1 = h1->source->point->Y, z1 = h1->source->point->Z;
+	double x2 = h2->source->point->X, y2 = h2->source->point->Y, z2 = h2->source->point->Z;
+	double ux = x1 - x0, uy = y1 - y0, uz = z1 - z0;
+	double vx = x2 - x0, vy = y2 - y0, vz = z2 - z0;
+	a = uy * vz - uz * vy;
+	b = uz * vx - ux * vz;
+	c = ux * vy - uy * vx;
+	double len = sqrt(a * a + b * b + c * c);
+	if (len < 1e-12) return false;
+	a /= len; b /= len; c /= len;
+	d = -(a * x0 + b * y0 + c * z0);
+	return true;
+}
+
+static double det3(double m[3][3])
+{
+	return m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+	     - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+	     + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+}
+
+static void qemOptimalPoint(const Quadric &Q, myVertex *v1, myVertex *v2,
+	double &ox, double &oy, double &oz, double &cost)
+{
+	double A[3][3] = {
+		{Q.m[0][0], Q.m[0][1], Q.m[0][2]},
+		{Q.m[1][0], Q.m[1][1], Q.m[1][2]},
+		{Q.m[2][0], Q.m[2][1], Q.m[2][2]}
+	};
+	double b[3] = {-Q.m[0][3], -Q.m[1][3], -Q.m[2][3]};
+	double detA = det3(A);
+
+	double candidates[4][3];
+	int nc = 0;
+
+	if (fabs(detA) > 1e-12) {
+		double Ax[3][3] = {{b[0], A[0][1], A[0][2]}, {b[1], A[1][1], A[1][2]}, {b[2], A[2][1], A[2][2]}};
+		double Ay[3][3] = {{A[0][0], b[0], A[0][2]}, {A[1][0], b[1], A[1][2]}, {A[2][0], b[2], A[2][2]}};
+		double Az[3][3] = {{A[0][0], A[0][1], b[0]}, {A[1][0], A[1][1], b[1]}, {A[2][0], A[2][1], b[2]}};
+		candidates[nc][0] = det3(Ax) / detA;
+		candidates[nc][1] = det3(Ay) / detA;
+		candidates[nc][2] = det3(Az) / detA;
+		nc++;
+	}
+
+	candidates[nc][0] = 0.5 * (v1->point->X + v2->point->X);
+	candidates[nc][1] = 0.5 * (v1->point->Y + v2->point->Y);
+	candidates[nc][2] = 0.5 * (v1->point->Z + v2->point->Z);
+	nc++;
+
+	candidates[nc][0] = v1->point->X;
+	candidates[nc][1] = v1->point->Y;
+	candidates[nc][2] = v1->point->Z;
+	nc++;
+
+	candidates[nc][0] = v2->point->X;
+	candidates[nc][1] = v2->point->Y;
+	candidates[nc][2] = v2->point->Z;
+	nc++;
+
+	cost = 1e100;
+	for (int i = 0; i < nc; i++) {
+		double c = Q.eval(candidates[i][0], candidates[i][1], candidates[i][2]);
+		if (c < cost) {
+			cost = c;
+			ox = candidates[i][0];
+			oy = candidates[i][1];
+			oz = candidates[i][2];
+		}
+	}
+}
+
 void myMesh::simplify()
 {
 	if (halfedges.size() == 0 || vertices.size() < 2) return;
+
+	map<myVertex *, Quadric> Qv;
+	for (int i = 0; i < (int)vertices.size(); i++)
+		Qv[vertices[i]] = Quadric();
+
+	for (int i = 0; i < (int)faces.size(); i++) {
+		myFace *f = faces[i];
+		double a, b, c, d;
+		if (!facePlane(f, a, b, c, d)) continue;
+		myHalfedge *h0 = f->adjacent_halfedge;
+		if (h0 == NULL) continue;
+		myHalfedge *h = h0;
+		do {
+			if (h->source != NULL) Qv[h->source].addPlane(a, b, c, d);
+			h = h->next;
+		} while (h != NULL && h != h0);
+	}
+
 	myHalfedge *e_min = NULL;
-	double d_min = 1e100;
+	double cost_min = 1e100;
+	double optX = 0.0, optY = 0.0, optZ = 0.0;
 	for (int i = 0; i < (int)halfedges.size(); i++) {
 		myHalfedge *e = halfedges[i];
 		if (e == NULL || e->twin == NULL) continue;
 		if (e->source == NULL || e->twin->source == NULL) continue;
 		if (e > e->twin) continue;
-		double dx=e->source->point->X -e->twin->source->point->X;
-		double dy= e->source->point->Y -e->twin->source->point->Y;
-		double dz =e->source->point->Z -e->twin->source->point->Z;
-		double d2 = dx*dx + dy* dy + dz*dz;
-		if (d2 < d_min) {
-			d_min = d2;
+		myVertex *v1 = e->source;
+		myVertex *v2 = e->twin->source;
+		Quadric Qedge = Qv[v1];
+		Qedge.add(Qv[v2]);
+		double cx, cy, cz, cost;
+		qemOptimalPoint(Qedge, v1, v2, cx, cy, cz, cost);
+		if (cost < cost_min) {
+			cost_min = cost;
 			e_min = e;
+			optX = cx; optY = cy; optZ = cz;
 		}
 	}
 	if (e_min == NULL) return;
@@ -514,9 +644,9 @@ void myMesh::simplify()
 	unsigned int oldVertices = vertices.size();
 	unsigned int oldFaces = faces.size();
 
-	v1->point->X = 0.5*(v1->point->X+v2->point->X);
-	v1->point->Y = 0.5*(v1->point->Y+v2->point->Y);
-	v1->point->Z = 0.5*(v1->point->Z+v2->point->Z);
+	v1->point->X = optX;
+	v1->point->Y = optY;
+	v1->point->Z = optZ;
 
 	vector<vector<myVertex *> > polys;
 	for (int i=0; i<(int)faces.size(); i++) {
@@ -604,8 +734,9 @@ void myMesh::simplify()
 		faces.push_back(f);
 	}
 
-	cout << "Simplification: " << oldVertices << " -> " << vertices.size()
-		 << " sommets, " << oldFaces << " -> " << faces.size() << " faces.\n";
+	cout << "Simplification QEM: " << oldVertices << " -> " << vertices.size()
+		 << " sommets, " << oldFaces << " -> " << faces.size()
+		 << " faces (cout=" << cost_min << ").\n";
 	checkMesh();
 }
 
