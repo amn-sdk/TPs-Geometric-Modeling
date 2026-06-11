@@ -44,6 +44,7 @@ int frame = 0, timebase = 0;
 float fps = 0;
 
 int button_pressed = 0; // 1 if a button is currently being pressed.
+bool shift_pressed = false;
 int GLUTmouse[2] = {0, 0};
 
 #define NUM_BUFFERS 10
@@ -314,6 +315,7 @@ void mouse(int button, int state, int x, int y) {
   GLUTmouse[1] = Glut_h - y;
 
   int mode = glutGetModifiers();
+  shift_pressed = (state == GLUT_DOWN) && ((mode & GLUT_ACTIVE_SHIFT) != 0);
   if (state == GLUT_DOWN) {
     if (button == GLUT_LEFT_BUTTON) {
       if (mode == GLUT_ACTIVE_CTRL) {
@@ -335,7 +337,7 @@ void mousedrag(int x, int y) {
   GLUTmouse[0] = x;
   GLUTmouse[1] = y;
 
-  if (glutGetModifiers() == GLUT_ACTIVE_SHIFT)
+  if (shift_pressed)
     return;
   if ((dx == 0 && dy == 0) || !button_pressed)
     return;

@@ -5,6 +5,7 @@
 #include <map>
 #include <utility>
 #include <array>
+#include <algorithm>
 #include <cmath>
 #include <GL/glew.h>
 #include "myVector3D.h"
@@ -182,9 +183,29 @@ void myMesh::computeNormals()
 		if (faces[i] != NULL)
 			faces[i]->computeNormal();
 
-for (unsigned int i = 0; i < vertices.size(); i++)
-		if (vertices[i] != NULL)
-			vertices[i]->computeNormal();
+	for (myVertex *vertex : vertices)
+		if (vertex != NULL && vertex->normal != NULL)
+			vertex->normal->clear();
+
+	for (myFace *face : faces) {
+		if (face == NULL || face->normal == NULL || face->adjacent_halfedge == NULL)
+			continue;
+		myHalfedge *first = face->adjacent_halfedge;
+		myHalfedge *halfedge = first;
+		int guard = 0;
+		do {
+			if (halfedge == NULL || halfedge->source == NULL ||
+				halfedge->source->normal == NULL)
+				break;
+			*halfedge->source->normal += *face->normal;
+			halfedge = halfedge->next;
+			guard++;
+		} while (halfedge != first && guard <= (int)halfedges.size());
+	}
+
+	for (myVertex *vertex : vertices)
+		if (vertex != NULL && vertex->normal != NULL && vertex->normal->length() > 1e-12)
+			vertex->normal->normalize();
 }
 
 void myMesh::normalize()
@@ -237,7 +258,233 @@ void myMesh::splitFaceQUADS(myFace *f, myPoint3D *p)
 
 void myMesh::subdivisionCatmullClark()
 {
-	/**** TODO ****/
+	if (vertices.empty() || faces.empty()) return;
+
+	struct FaceData {
+		vector<int> vertices;
+		myPoint3D point;
+	};
+	struct EdgeData {
+		int v0 = -1;
+		int v1 = -1;
+		vector<int> faces;
+		myPoint3D midpoint;
+		myPoint3D point;
+		int new_vertex = -1;
+	};
+
+	map<myVertex *, int> vertex_ids;
+	for (int i = 0; i < (int)vertices.size(); i++)
+		vertex_ids[vertices[i]] = i;
+
+	vector<FaceData> old_faces;
+	map<pair<int, int>, EdgeData> edges;
+	vector<vector<int> > incident_faces(vertices.size());
+	vector<vector<pair<int, int> > > incident_edges(vertices.size());
+
+	for (int face_id = 0; face_id < (int)faces.size(); face_id++) {
+		myFace *face = faces[face_id];
+		if (face == NULL || face->adjacent_halfedge == NULL) {
+			cerr << "Catmull-Clark: face invalide, subdivision annulee.\n";
+			return;
+		}
+
+		FaceData data;
+		myHalfedge *first = face->adjacent_halfedge;
+		myHalfedge *halfedge = first;
+		int guard = 0;
+		do {
+			if (halfedge == NULL || halfedge->source == NULL ||
+				vertex_ids.find(halfedge->source) == vertex_ids.end()) {
+				cerr << "Catmull-Clark: contour de face invalide, subdivision annulee.\n";
+				return;
+			}
+			data.vertices.push_back(vertex_ids[halfedge->source]);
+			halfedge = halfedge->next;
+			guard++;
+		} while (halfedge != first && guard <= (int)halfedges.size());
+
+		if (halfedge != first || data.vertices.size() < 3) {
+			cerr << "Catmull-Clark: contour de face non ferme, subdivision annulee.\n";
+			return;
+		}
+
+		for (int vertex_id : data.vertices) {
+			data.point.X += vertices[vertex_id]->point->X;
+			data.point.Y += vertices[vertex_id]->point->Y;
+			data.point.Z += vertices[vertex_id]->point->Z;
+			incident_faces[vertex_id].push_back(face_id);
+		}
+		double face_size = (double)data.vertices.size();
+		data.point.X /= face_size;
+		data.point.Y /= face_size;
+		data.point.Z /= face_size;
+
+		for (int i = 0; i < (int)data.vertices.size(); i++) {
+			int a = data.vertices[i];
+			int b = data.vertices[(i + 1) % data.vertices.size()];
+			pair<int, int> key = minmax(a, b);
+			map<pair<int, int>, EdgeData>::iterator it = edges.find(key);
+			if (it == edges.end()) {
+				EdgeData edge;
+				edge.v0 = key.first;
+				edge.v1 = key.second;
+				edge.midpoint.X = 0.5 * (vertices[edge.v0]->point->X + vertices[edge.v1]->point->X);
+				edge.midpoint.Y = 0.5 * (vertices[edge.v0]->point->Y + vertices[edge.v1]->point->Y);
+				edge.midpoint.Z = 0.5 * (vertices[edge.v0]->point->Z + vertices[edge.v1]->point->Z);
+				edges[key] = edge;
+				incident_edges[a].push_back(key);
+				incident_edges[b].push_back(key);
+			}
+			edges[key].faces.push_back(face_id);
+		}
+
+		old_faces.push_back(data);
+	}
+
+	for (map<pair<int, int>, EdgeData>::iterator it = edges.begin(); it != edges.end(); ++it) {
+		EdgeData &edge = it->second;
+		if (edge.faces.size() > 2) {
+			cerr << "Catmull-Clark: arete non-manifold detectee, subdivision annulee.\n";
+			return;
+		}
+		if (edge.faces.size() == 2) {
+			myPoint3D &f0 = old_faces[edge.faces[0]].point;
+			myPoint3D &f1 = old_faces[edge.faces[1]].point;
+			edge.point.X = 0.25 * (vertices[edge.v0]->point->X + vertices[edge.v1]->point->X + f0.X + f1.X);
+			edge.point.Y = 0.25 * (vertices[edge.v0]->point->Y + vertices[edge.v1]->point->Y + f0.Y + f1.Y);
+			edge.point.Z = 0.25 * (vertices[edge.v0]->point->Z + vertices[edge.v1]->point->Z + f0.Z + f1.Z);
+		} else {
+			edge.point = edge.midpoint;
+		}
+	}
+
+	vector<myPoint3D> repositioned(vertices.size());
+	for (int vertex_id = 0; vertex_id < (int)vertices.size(); vertex_id++) {
+		myPoint3D &p = *vertices[vertex_id]->point;
+		vector<int> boundary_neighbors;
+		for (const pair<int, int> &key : incident_edges[vertex_id]) {
+			EdgeData &edge = edges[key];
+			if (edge.faces.size() == 1)
+				boundary_neighbors.push_back(edge.v0 == vertex_id ? edge.v1 : edge.v0);
+		}
+
+		if (boundary_neighbors.size() == 2) {
+			myPoint3D &p0 = *vertices[boundary_neighbors[0]]->point;
+			myPoint3D &p1 = *vertices[boundary_neighbors[1]]->point;
+			repositioned[vertex_id].X = 0.75 * p.X + 0.125 * (p0.X + p1.X);
+			repositioned[vertex_id].Y = 0.75 * p.Y + 0.125 * (p0.Y + p1.Y);
+			repositioned[vertex_id].Z = 0.75 * p.Z + 0.125 * (p0.Z + p1.Z);
+		} else if (!boundary_neighbors.empty() || incident_edges[vertex_id].empty()) {
+			// Corners and isolated vertices are kept fixed.
+			repositioned[vertex_id] = p;
+		} else {
+			double face_x = 0.0, face_y = 0.0, face_z = 0.0;
+			for (int face_id : incident_faces[vertex_id]) {
+				face_x += old_faces[face_id].point.X;
+				face_y += old_faces[face_id].point.Y;
+				face_z += old_faces[face_id].point.Z;
+			}
+			double face_count = (double)incident_faces[vertex_id].size();
+			face_x /= face_count;
+			face_y /= face_count;
+			face_z /= face_count;
+
+			double edge_x = 0.0, edge_y = 0.0, edge_z = 0.0;
+			for (const pair<int, int> &key : incident_edges[vertex_id]) {
+				edge_x += edges[key].midpoint.X;
+				edge_y += edges[key].midpoint.Y;
+				edge_z += edges[key].midpoint.Z;
+			}
+			double valence = (double)incident_edges[vertex_id].size();
+			edge_x /= valence;
+			edge_y /= valence;
+			edge_z /= valence;
+
+			repositioned[vertex_id].X = (face_x + 2.0 * edge_x + (valence - 3.0) * p.X) / valence;
+			repositioned[vertex_id].Y = (face_y + 2.0 * edge_y + (valence - 3.0) * p.Y) / valence;
+			repositioned[vertex_id].Z = (face_z + 2.0 * edge_z + (valence - 3.0) * p.Z) / valence;
+		}
+	}
+
+	vector<myVertex *> new_vertices;
+	auto add_vertex = [&](const myPoint3D &point) -> int {
+		myVertex *vertex = new myVertex();
+		vertex->point = new myPoint3D(point.X, point.Y, point.Z);
+		new_vertices.push_back(vertex);
+		return (int)new_vertices.size() - 1;
+	};
+
+	vector<int> vertex_points(vertices.size());
+	for (int i = 0; i < (int)repositioned.size(); i++)
+		vertex_points[i] = add_vertex(repositioned[i]);
+	for (map<pair<int, int>, EdgeData>::iterator it = edges.begin(); it != edges.end(); ++it)
+		it->second.new_vertex = add_vertex(it->second.point);
+	vector<int> face_points(old_faces.size());
+	for (int i = 0; i < (int)old_faces.size(); i++)
+		face_points[i] = add_vertex(old_faces[i].point);
+
+	vector<array<int, 4> > quads;
+	for (int face_id = 0; face_id < (int)old_faces.size(); face_id++) {
+		vector<int> &loop = old_faces[face_id].vertices;
+		for (int i = 0; i < (int)loop.size(); i++) {
+			int previous = loop[(i - 1 + loop.size()) % loop.size()];
+			int current = loop[i];
+			int next = loop[(i + 1) % loop.size()];
+			quads.push_back({
+				vertex_points[current],
+				edges[minmax(current, next)].new_vertex,
+				face_points[face_id],
+				edges[minmax(previous, current)].new_vertex
+			});
+		}
+	}
+
+	vector<myHalfedge *> new_halfedges;
+	vector<myFace *> new_faces;
+	map<pair<int, int>, myHalfedge *> directed_edges;
+	for (const array<int, 4> &quad : quads) {
+		myFace *face = new myFace();
+		array<myHalfedge *, 4> face_edges;
+		for (int i = 0; i < 4; i++) face_edges[i] = new myHalfedge();
+		face->adjacent_halfedge = face_edges[0];
+
+		for (int i = 0; i < 4; i++) {
+			int next = (i + 1) % 4;
+			int previous = (i + 3) % 4;
+			myHalfedge *halfedge = face_edges[i];
+			halfedge->source = new_vertices[quad[i]];
+			halfedge->adjacent_face = face;
+			halfedge->next = face_edges[next];
+			halfedge->prev = face_edges[previous];
+			if (halfedge->source->originof == NULL)
+				halfedge->source->originof = halfedge;
+
+			pair<int, int> reverse = make_pair(quad[next], quad[i]);
+			map<pair<int, int>, myHalfedge *>::iterator twin = directed_edges.find(reverse);
+			if (twin != directed_edges.end()) {
+				halfedge->twin = twin->second;
+				twin->second->twin = halfedge;
+			}
+			directed_edges[make_pair(quad[i], quad[next])] = halfedge;
+			new_halfedges.push_back(halfedge);
+		}
+		new_faces.push_back(face);
+	}
+
+	for (myHalfedge *halfedge : halfedges) delete halfedge;
+	for (myFace *face : faces) delete face;
+	for (myVertex *vertex : vertices) {
+		delete vertex->point;
+		delete vertex;
+	}
+	vertices.swap(new_vertices);
+	halfedges.swap(new_halfedges);
+	faces.swap(new_faces);
+
+	cout << "Catmull-Clark: " << vertices.size() << " sommets, "
+		 << faces.size() << " faces.\n";
+	checkMesh();
 }
 
 void myMesh::simplify()

@@ -73,6 +73,7 @@ void menu(int item) {
     break;
   }
   case MENU_SHADINGTYPE: {
+    smooth = !smooth;
     break;
   }
   case MENU_DRAWMESH: {
@@ -147,6 +148,7 @@ void menu(int item) {
     clear();
     m->computeNormals();
     makeBuffers(m);
+    smooth = true;
     break;
   }
   case MENU_SPLITEDGE: {
@@ -181,7 +183,6 @@ void menu(int item) {
   }
   case MENU_GENERATE: {
     m->generateSurface();
-    m->triangulate();
     m->computeNormals();
     makeBuffers(m);
     break;
@@ -192,8 +193,6 @@ void menu(int item) {
 
 // This function is called to display objects on screen.
 void display() {
-  smooth = false;
-
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glViewport(0, 0, Glut_w, Glut_h);
@@ -379,7 +378,6 @@ void initMesh() {
   if (!loaded)
     loaded = m->readFile("build/surface_revolution.obj");
   if (loaded) {
-    m->triangulate();
     m->computeNormals();
     makeBuffers(m);
   }

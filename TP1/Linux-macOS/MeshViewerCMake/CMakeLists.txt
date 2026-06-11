@@ -19,8 +19,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-set(SOURCE_FILES
-    main.cpp
+set(MESH_SOURCE_FILES
     myHalfedge.cpp
     myVector3D.cpp
     myPoint3D.cpp
@@ -29,7 +28,7 @@ set(SOURCE_FILES
     myVertex.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+add_executable(${PROJECT_NAME} main.cpp ${MESH_SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME}
     ${OPENGL_LIBRARIES}
@@ -37,3 +36,18 @@ target_link_libraries(${PROJECT_NAME}
     "-framework GLUT"
     glm::glm
 )
+
+include(CTest)
+if(BUILD_TESTING)
+    add_executable(CatmullClarkTest
+        tests/catmull_clark_test.cpp
+        ${MESH_SOURCE_FILES}
+    )
+    target_link_libraries(CatmullClarkTest ${OPENGL_LIBRARIES})
+    add_test(
+        NAME catmull_clark
+        COMMAND CatmullClarkTest
+            ${CMAKE_CURRENT_SOURCE_DIR}/cube.obj
+            ${CMAKE_CURRENT_SOURCE_DIR}/surface_revolution.obj
+    )
+endif()
